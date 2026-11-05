@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f4f7fb" />
+    <title>Tenant portal · Bords</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+    <script src="supabase-client.js" defer></script>
+    <script src="tenant.js" defer></script>
+  </head>
+  <body>
+    <div class="app-shell tenant-app">
+      <div class="page-area">
+        <header class="topbar tenant-topbar">
+          <div class="tenant-topbar-start">
+            <div class="tenant-house-switcher">
+              <span class="property-avatar" aria-hidden="true">B</span>
+              <span class="tenant-house-copy"><strong>Bords</strong><small>Boarding house</small></span>
+            </div>
+            <nav class="tenant-top-nav" aria-label="Tenant sections">
+              <a href="#rent-status">Rent</a>
+              <a href="#available-rooms">Rooms</a>
+              <a href="#tenant-loans">Loans</a>
+            </nav>
+          </div>
+          <div class="topbar-tools">
+            <span class="tenant-account-name" id="tenant-account-name">Tenant account</span>
+            <span class="today-label" id="tenant-today"></span>
+            <a class="button button-quiet" href="tenant-change-password.html">Change password</a>
+            <button class="button button-quiet" id="tenant-logout-button" type="button">Log out</button>
+          </div>
+        </header>
+
+        <main class="tenant-content">
+          <section class="tenant-welcome">
+            <div>
+              <span class="panel-label">TENANT SPACE</span>
+              <h1 id="tenant-welcome-title">Welcome</h1>
+              <p>View your rent status and rooms available at Bords.</p>
+            </div>
+            <span class="tenant-read-only">Tenant access</span>
+          </section>
+
+          <p class="tenant-error" id="tenant-error" role="alert"></p>
+
+          <section class="tenant-reminder" id="rent-reminder" aria-live="polite">
+            <span class="reminder-icon" aria-hidden="true">!</span>
+            <div><strong id="reminder-title">Monthly rent reminder</strong><p id="reminder-copy">Rent is due on the 3rd of each month.</p></div>
+          </section>
+
+          <section class="tenant-panels">
+            <article class="panel tenant-rent-panel" id="rent-status">
+              <div class="panel-header">
+                <div><div class="panel-label" id="rent-month-label">CURRENT MONTH</div><h2>Rent</h2></div>
+                <span id="rent-status-badge" class="status pending">Loading</span>
+              </div>
+              <div class="tenant-rent-details" id="rent-details">
+                <div><span>TENANT</span><strong id="rent-tenant-name">Loading your account</strong></div>
+                <div><span>ASSIGNED ROOM</span><strong id="rent-room">—</strong></div>
+                <div><span>MONTHLY RENT</span><strong id="rent-amount">—</strong></div>
+                <div><span>PAYMENT RECORDED</span><strong id="rent-paid">—</strong></div>
+                <div><span>PAYMENT METHOD</span><strong id="rent-method">—</strong></div>
+                <div><span>PAYMENT DATE & TIME</span><strong id="rent-paid-on">—</strong></div>
+              </div>
+              <p class="tenant-empty" id="tenant-empty" hidden></p>
+              <div class="tenant-payment-submit" id="tenant-payment-submit" hidden>
+                <div class="tenant-qr-panel">
+                  <span class="tenant-qr-label">ONLINE PAYMENT</span>
+                  <div class="tenant-qr-placeholder" id="tenant-qr-placeholder" hidden aria-label="Temporary QR placeholder">
+                    <span>B</span>
+                    <small>QR PLACEHOLDER</small>
+                  </div>
+                  <p id="tenant-qr-hint">Choose Online to view the payment QR placeholder.</p>
+                </div>
+                <form class="tenant-payment-form" id="tenant-payment-form">
+                  <h3>Submit rent payment</h3>
+                  <p class="tenant-payment-note">Your payment stays pending until the Owner reviews it.</p>
+                  <label class="form-field">Amount given (₱)<input name="amount" type="number" min="0.01" step="0.01" required /></label>
+                  <label class="form-field">Method of payment
+                    <select name="method" required>
+                      <option value="">Choose a method</option>
+                      <option value="Online">Online</option>
+                      <option value="Bank transfer">Bank transfer</option>
+                      <option value="Cash">Cash</option>
+                    </select>
+                  </label>
+                  <label class="form-field">Date and time of payment<input name="paidOn" type="datetime-local" required /></label>
+                  <label class="form-field">Picture proof of payment<input name="proof" type="file" accept="image/*" required /></label>
+                  <p class="tenant-payment-error" id="tenant-payment-error" role="alert"></p>
+                  <button class="button button-primary" type="submit">Submit for review</button>
+                </form>
+              </div>
+              <p class="tenant-submission-feedback" id="tenant-submission-feedback" role="status" aria-live="polite"></p>
+            </article>
+
+            <article class="panel tenant-rooms-panel" id="available-rooms">
+              <div class="panel-header">
+                <div><div class="panel-label">ROOMS</div><h2>Room availability</h2></div>
+                <span class="panel-count" id="available-room-count">0 available</span>
+              </div>
+              <p class="tenant-room-intro">Select an available room to request occupancy. The Owner must approve the request.</p>
+              <p class="tenant-room-feedback" id="tenant-room-feedback" role="status" aria-live="polite"></p>
+              <div class="room-grid tenant-room-grid" id="available-room-list"></div>
+            </article>
+            <article class="panel tenant-loans-panel" id="tenant-loans">
+              <div class="panel-header">
+                <div><div class="panel-label">BETWEEN TENANTS</div><h2>Your loan status</h2></div>
+                <span class="panel-count" id="tenant-loan-count">0 loans</span>
+              </div>
+              <div class="tenant-loan-list" id="tenant-loan-list"></div>
+              <form class="tenant-loan-form" id="tenant-loan-form">
+                <h3>Request a loan</h3>
+                <p class="tenant-payment-note">Requests are sent to the Owner for review.</p>
+                <label class="form-field">Request from
+                  <select name="lenderId" id="loan-lender" required>
+                    <option value="">Choose another tenant</option>
+                  </select>
+                </label>
+                <label class="form-field">Amount requested (₱)<input name="amount" type="number" min="1" step="1" required /></label>
+                <label class="form-field">Requested repayment date<input name="dueDate" type="date" /></label>
+                <p class="tenant-loan-error" id="tenant-loan-error" role="alert"></p>
+                <button class="button button-primary" type="submit">Send loan request</button>
+              </form>
+            </article>
+          </section>
+
+          <footer class="tenant-footer"><span>Bords · Boarding house</span><span>Payment and loan requests require Owner review</span></footer>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f4f7fb" />
+    <title>Create tenant account · Bords</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+    <script src="supabase-client.js" defer></script>
+    <script src="tenant-signup.js" defer></script>
+  </head>
+  <body>
+    <main class="login-screen" aria-labelledby="signup-title">
+      <section class="login-card">
+        <a class="brand login-brand" href="index.html" aria-label="Bords home">
+          <span class="brand-mark" aria-hidden="true">B</span>
+          <span class="brand-copy"><strong>Bords</strong></span>
+        </a>
+        <span class="panel-label">TENANT ACCOUNT</span>
+        <h1 id="signup-title">Create your account</h1>
+        <p class="login-intro">The Owner must add your email to your tenant record first. Sign up using that same email address.</p>
+        <form id="tenant-signup-form">
+          <label class="login-field" for="signup-email">Email
+            <input id="signup-email" name="email" type="email" autocomplete="email" required />
+          </label>
+          <label class="login-field" for="signup-password">Password
+            <input id="signup-password" name="password" type="password" autocomplete="new-password" minlength="8" required />
+          </label>
+          <label class="login-field" for="signup-confirm-password">Confirm password
+            <input id="signup-confirm-password" name="confirmPassword" type="password" autocomplete="new-password" minlength="8" required />
+          </label>
+          <button class="button button-primary login-continue" type="submit">Create tenant account</button>
+        </form>
+        <p class="login-feedback" id="tenant-signup-feedback" role="status" aria-live="polite"></p>
+        <button class="auth-link auth-link-button" id="resend-confirmation-button" type="button" hidden>Resend confirmation email</button>
+        <a class="auth-link" href="index.html">Back to sign in</a>
+      </section>
+    </main>
+  </body>
+</html>

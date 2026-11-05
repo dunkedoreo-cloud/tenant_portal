@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f4f7fb" />
+    <title>Sign in · Bords</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+    <script src="supabase-client.js" defer></script>
+    <script src="login.js" defer></script>
+  </head>
+  <body>
+    <main class="login-screen" aria-labelledby="login-title">
+      <section class="login-card">
+        <a class="brand login-brand" href="index.html" aria-label="Bords home">
+          <span class="brand-mark" aria-hidden="true">B</span>
+          <span class="brand-copy"><strong>Bords</strong></span>
+        </a>
+        <span class="panel-label">WELCOME TO BORDS</span>
+        <h1 id="login-title">Sign in to Bords</h1>
+        <p class="login-intro">Choose your account type, then enter your email and password.</p>
+        <div class="role-options" role="group" aria-label="Choose your role">
+          <button class="role-option" type="button" data-role-choice="owner" aria-pressed="false">
+            <span class="role-icon" aria-hidden="true">⌂</span>
+            <span><strong>Owner</strong><small>Manage your boarding house</small></span>
+            <span class="role-check" aria-hidden="true">✓</span>
+          </button>
+          <button class="role-option" type="button" data-role-choice="tenant" aria-pressed="false">
+            <span class="role-icon" aria-hidden="true">♙</span>
+            <span><strong>Tenant</strong><small>Tenant access</small></span>
+            <span class="role-check" aria-hidden="true">✓</span>
+          </button>
+        </div>
+        <form id="login-form">
+          <label class="login-field" for="login-email">Email
+            <input id="login-email" name="email" type="email" autocomplete="username" required />
+          </label>
+          <label class="login-field" for="login-password">Password
+            <input id="login-password" name="password" type="password" autocomplete="current-password" required />
+          </label>
+          <button class="button button-primary login-continue" id="continue-role" type="submit" disabled>Choose a role</button>
+        </form>
+        <a class="auth-link" href="forgot-password.html">Forgot password?</a>
+        <a class="auth-link" href="tenant-signup.html">New tenant? Create an account</a>
+        <p class="login-feedback" id="login-feedback" role="status" aria-live="polite"></p>
+      </section>
+    </main>
+  </body>
+</html>

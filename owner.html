@@ -1,0 +1,205 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f4f7fb" />
+    <title>Bords</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" id="sidebar">
+        <a class="brand" href="owner.html" aria-label="Bords dashboard">
+          <span class="brand-mark" aria-hidden="true">B</span>
+          <span class="brand-copy"><strong>Bords</strong></span>
+        </a>
+        <p class="nav-label">MANAGE</p>
+        <nav class="nav" aria-label="Main navigation">
+          <button class="nav-item active" type="button" data-nav="overview"><span class="nav-icon">⌂</span>Overview</button>
+          <button class="nav-item" type="button" data-nav="tenants"><span class="nav-icon">♙</span>Tenants</button>
+          <button class="nav-item" type="button" data-nav="rooms"><span class="nav-icon">▦</span>Rooms</button>
+          <button class="nav-item" type="button" data-nav="rent"><span class="nav-icon">₱</span>Rent payments</button>
+          <button class="nav-item" type="button" data-nav="loans"><span class="nav-icon">↗</span>Loans</button>
+        </nav>
+        <div class="sidebar-bottom">
+          <div class="help-note">
+            <span class="help-icon" aria-hidden="true">i</span>
+            <div><strong>House at a glance</strong><p>Keep tenant details, payments, and available rooms in one place.</p></div>
+          </div>
+          <div class="profile-row">
+            <span class="profile-avatar">O</span>
+            <span><strong>Owner</strong><small>Demo access</small></span>
+            <button class="more-button" type="button" aria-label="Profile options">···</button>
+          </div>
+        </div>
+      </aside>
+
+      <div class="page-area">
+        <header class="topbar">
+          <div class="breadcrumbs"><span>Bords</span><span class="crumb-divider">/</span><strong id="page-title">Overview</strong></div>
+          <div class="topbar-tools">
+            <span class="today-label" id="today-label"></span>
+            <a class="button button-quiet" href="https://supabase.com/dashboard/project/exfeacpgbrkgppzyvusk/auth/users" target="_blank" rel="noopener noreferrer">Manage tenant accounts ↗</a>
+            <button class="button button-quiet" id="logout-button" type="button">Log out</button>
+          </div>
+        </header>
+
+        <main class="main-panel" id="view-root" tabindex="-1">
+        <section class="stats-grid">
+          <article class="stat-card accent-blue">
+            <div class="stat-header">
+              <span>Tenants paid in full</span>
+            </div>
+            <div class="stat-value">1</div>
+            <div class="stat-subtext">Complete rent payments</div>
+          </article>
+
+          <article class="stat-card accent-green">
+            <div class="stat-header">
+              <span>Rooms available</span>
+            </div>
+            <div class="stat-value">6</div>
+            <div class="stat-subtext">Ready for new tenants</div>
+          </article>
+
+          <article class="stat-card accent-gold">
+            <div class="stat-header">
+              <span>Total tenants</span>
+            </div>
+            <div class="stat-value">4</div>
+            <div class="stat-subtext">Currently staying</div>
+          </article>
+
+          <article class="stat-card accent-red">
+            <div class="stat-header">
+              <span>Pending tenant loans</span>
+            </div>
+            <div class="stat-value">2</div>
+            <div class="stat-subtext">Between house tenants</div>
+          </article>
+        </section>
+
+        <section class="content-grid">
+          <div class="panel">
+            <div class="panel-header">
+              <div>
+                <div class="panel-label">Payments</div>
+                <h2>Tenant payment status</h2>
+              </div>
+              <span class="panel-count">4 tenants</span>
+            </div>
+
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr><th>Tenant</th><th>Room</th><th>Payment</th><th>Amount</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Mae Dela Cruz</td><td>R-204</td><td><span class="status success">Paid in full</span></td><td>₱4,860</td></tr>
+                  <tr><td>Rafael Tan</td><td>R-118</td><td><span class="status pending">Partial</span></td><td>₱2,040</td></tr>
+                  <tr><td>Claire Gomez</td><td>R-309</td><td><span class="status warning">Due</span></td><td>₱2,430</td></tr>
+                  <tr><td>Johann Reyes</td><td>R-142</td><td><span class="status danger">Overdue</span></td><td>₱980</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-header">
+              <div>
+                <div class="panel-label">Rooms</div>
+                <h2>Available rooms</h2>
+              </div>
+            </div>
+
+            <div class="stack-list">
+              <div class="room-item">
+                <div><strong>Room R-105</strong><small>Single · 1 bed</small></div>
+                <span class="status success">Available</span>
+              </div>
+              <div class="room-item">
+                <div><strong>Room R-212</strong><small>Shared · 2 beds</small></div>
+                <span class="status success">Available</span>
+              </div>
+              <div class="room-item">
+                <div><strong>Room R-306</strong><small>Single · 1 bed</small></div>
+                <span class="status success">Available</span>
+              </div>
+              <p class="room-note">Showing 3 of 6 available rooms</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="bottom-grid">
+          <div class="panel">
+            <div class="panel-header">
+              <div>
+                <div class="panel-label">Tenants</div>
+                <h2>House roster</h2>
+              </div>
+              <span class="panel-count">4 active</span>
+            </div>
+
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr><th>Tenant</th><th>Room</th><th>Room type</th><th>Status</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Mae Dela Cruz</td><td>R-204</td><td>Single</td><td><span class="status success">Active</span></td></tr>
+                  <tr><td>Rafael Tan</td><td>R-118</td><td>Shared</td><td><span class="status success">Active</span></td></tr>
+                  <tr><td>Claire Gomez</td><td>R-309</td><td>Single</td><td><span class="status success">Active</span></td></tr>
+                  <tr><td>Johann Reyes</td><td>R-142</td><td>Shared</td><td><span class="status success">Active</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-header">
+              <div>
+                <div class="panel-label">Between tenants</div>
+                <h2>Pending loan requests</h2>
+              </div>
+            </div>
+
+            <div class="loan-list">
+              <div class="loan-item">
+                <div>
+                  <strong>Rafael Tan</strong>
+                  <small>Lender: Mae Dela Cruz</small>
+                </div>
+                <span class="loan-meta"><strong>₱3,000</strong><small>Pending</small></span>
+              </div>
+              <div class="loan-item">
+                <div>
+                  <strong>Claire Gomez</strong>
+                  <small>Lender: Johann Reyes</small>
+                </div>
+                <span class="loan-meta"><strong>₱1,500</strong><small>Pending</small></span>
+              </div>
+            </div>
+          </div>
+        </section>
+        </main>
+        <footer class="page-footer"><span>Bords · Boarding house</span><span>Your records are saved to Supabase</span></footer>
+      </div>
+    </div>
+
+    <dialog class="entry-dialog" id="entry-dialog" aria-labelledby="dialog-title">
+      <div class="dialog-head">
+        <div><span class="eyebrow" id="dialog-eyebrow">HOUSE RECORD</span><h2 id="dialog-title">Add record</h2></div>
+        <button class="icon-button" type="button" data-action="close-dialog" aria-label="Close dialog">×</button>
+      </div>
+      <form id="entry-form" class="entry-form"></form>
+    </dialog>
+    <div class="toast-region" id="toast-region" aria-live="polite"></div>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-client.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
