@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="styles.css" />
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
     <script src="supabase-client.js" defer></script>
+    <script src="password-visibility.js" defer></script>
     <script src="login.js" defer></script>
   </head>
   <body>
@@ -40,7 +41,10 @@
             <input id="login-email" name="email" type="email" autocomplete="username" required />
           </label>
           <label class="login-field" for="login-password">Password
-            <input id="login-password" name="password" type="password" autocomplete="current-password" required />
+            <span class="password-field-control">
+              <input id="login-password" name="password" type="password" autocomplete="current-password" required />
+              <button class="password-visibility-toggle" type="button" data-password-toggle aria-controls="login-password" aria-label="Show password" aria-pressed="false">Show</button>
+            </span>
           </label>
           <button class="button button-primary login-continue" id="continue-role" type="submit" disabled>Choose a role</button>
         </form>

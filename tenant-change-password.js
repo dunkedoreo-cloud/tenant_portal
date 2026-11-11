@@ -9,8 +9,8 @@ async function initializeChangePassword() {
     window.location.replace('index.html');
     return;
   }
-  if (data.session.user.app_metadata.role !== 'tenant') {
-    window.location.replace('index.html');
+  if (data.session.user.app_metadata?.role === 'owner') {
+    window.location.replace('owner.html');
     return;
   }
   tenantUser = data.session.user;
@@ -32,6 +32,10 @@ changePasswordForm.addEventListener('submit', async (event) => {
   const currentPassword = String(formData.get('currentPassword'));
   const newPassword = String(formData.get('newPassword'));
   const confirmPassword = String(formData.get('confirmPassword'));
+  if (newPassword.length < 8) {
+    changePasswordFeedback.textContent = 'New password must be at least 8 characters.';
+    return;
+  }
   if (newPassword !== confirmPassword) {
     changePasswordFeedback.textContent = 'The new passwords do not match.';
     return;

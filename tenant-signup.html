@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="styles.css" />
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
     <script src="supabase-client.js" defer></script>
+    <script src="password-visibility.js" defer></script>
     <script src="tenant-signup.js" defer></script>
   </head>
   <body>
@@ -22,16 +23,28 @@
         </a>
         <span class="panel-label">TENANT ACCOUNT</span>
         <h1 id="signup-title">Create your account</h1>
-        <p class="login-intro">The Owner must add your email to your tenant record first. Sign up using that same email address.</p>
+        <p class="login-intro">Create an account with your details. After you confirm your email, your tenant profile will be created and the Owner can assign your room and rent.</p>
         <form id="tenant-signup-form">
+          <label class="login-field" for="signup-name">Full name
+            <input id="signup-name" name="name" type="text" autocomplete="name" required />
+          </label>
           <label class="login-field" for="signup-email">Email
             <input id="signup-email" name="email" type="email" autocomplete="email" required />
           </label>
+          <label class="login-field" for="signup-phone">Phone number <span>(optional)</span>
+            <input id="signup-phone" name="phone" type="tel" autocomplete="tel" />
+          </label>
           <label class="login-field" for="signup-password">Password
-            <input id="signup-password" name="password" type="password" autocomplete="new-password" minlength="8" required />
+            <span class="password-field-control">
+              <input id="signup-password" name="password" type="password" autocomplete="new-password" minlength="8" required />
+              <button class="password-visibility-toggle" type="button" data-password-toggle aria-controls="signup-password" aria-label="Show password" aria-pressed="false">Show</button>
+            </span>
           </label>
           <label class="login-field" for="signup-confirm-password">Confirm password
-            <input id="signup-confirm-password" name="confirmPassword" type="password" autocomplete="new-password" minlength="8" required />
+            <span class="password-field-control">
+              <input id="signup-confirm-password" name="confirmPassword" type="password" autocomplete="new-password" minlength="8" required />
+              <button class="password-visibility-toggle" type="button" data-password-toggle aria-controls="signup-confirm-password" aria-label="Show password" aria-pressed="false">Show</button>
+            </span>
           </label>
           <button class="button button-primary login-continue" type="submit">Create tenant account</button>
         </form>

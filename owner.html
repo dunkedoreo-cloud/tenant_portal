@@ -15,25 +15,48 @@
       <aside class="sidebar" id="sidebar">
         <a class="brand" href="owner.html" aria-label="Bords dashboard">
           <span class="brand-mark" aria-hidden="true">B</span>
-          <span class="brand-copy"><strong>Bords</strong></span>
+          <span class="brand-copy"><strong>Bords</strong><small>Owner Portal</small></span>
         </a>
         <p class="nav-label">MANAGE</p>
         <nav class="nav" aria-label="Main navigation">
-          <button class="nav-item active" type="button" data-nav="overview"><span class="nav-icon">⌂</span>Overview</button>
-          <button class="nav-item" type="button" data-nav="tenants"><span class="nav-icon">♙</span>Tenants</button>
-          <button class="nav-item" type="button" data-nav="rooms"><span class="nav-icon">▦</span>Rooms</button>
-          <button class="nav-item" type="button" data-nav="rent"><span class="nav-icon">₱</span>Rent payments</button>
-          <button class="nav-item" type="button" data-nav="loans"><span class="nav-icon">↗</span>Loans</button>
+          <button class="nav-item active" type="button" data-nav="overview">
+            <svg class="nav-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+            <span>Overview</span>
+          </button>
+          <button class="nav-item" type="button" data-nav="tenants">
+            <svg class="nav-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <span>Tenants</span>
+            <span class="nav-count-badge" id="nav-count-tenants">0</span>
+          </button>
+          <button class="nav-item" type="button" data-nav="rooms">
+            <svg class="nav-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 4v16"/><path d="M2 8h18a2 2 0 0 1 2 2v10"/><path d="M2 17h20"/><path d="M6 8v9"/></svg>
+            <span>Rooms</span>
+            <span class="nav-count-badge" id="nav-count-rooms">0</span>
+          </button>
+          <button class="nav-item" type="button" data-nav="rent">
+            <svg class="nav-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
+            <span>Rent payments</span>
+            <span class="nav-count-badge" id="nav-count-rent">0</span>
+          </button>
+          <button class="nav-item" type="button" data-nav="loans">
+            <svg class="nav-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m17 7-5-5-5 5"/><path d="m17 17-5 5-5-5"/><path d="M12 2v20"/></svg>
+            <span>Loans</span>
+            <span class="nav-count-badge" id="nav-count-loans">0</span>
+          </button>
         </nav>
         <div class="sidebar-bottom">
           <div class="help-note">
-            <span class="help-icon" aria-hidden="true">i</span>
-            <div><strong>House at a glance</strong><p>Keep tenant details, payments, and available rooms in one place.</p></div>
+            <span class="help-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+            </span>
+            <div><strong>House at a glance</strong><p>Real-time tenant roster, room inventory, and rent collections.</p></div>
           </div>
           <div class="profile-row">
             <span class="profile-avatar">O</span>
-            <span><strong>Owner</strong><small>Demo access</small></span>
-            <button class="more-button" type="button" aria-label="Profile options">···</button>
+            <div class="profile-info"><strong>Owner</strong><small>Boarding House Admin</small></div>
+            <a class="supabase-link-icon" href="https://supabase.com/dashboard/project/exfeacpgbrkgppzyvusk/auth/users" target="_blank" rel="noopener noreferrer" title="Manage Auth in Supabase">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </a>
           </div>
         </div>
       </aside>
@@ -41,10 +64,40 @@
       <div class="page-area">
         <header class="topbar">
           <div class="breadcrumbs"><span>Bords</span><span class="crumb-divider">/</span><strong id="page-title">Overview</strong></div>
+          <div class="topbar-search">
+            <svg class="search-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="search" id="owner-search-input" placeholder="Search tenants, rooms, payments…" aria-label="Search records" />
+          </div>
           <div class="topbar-tools">
             <span class="today-label" id="today-label"></span>
-            <a class="button button-quiet" href="https://supabase.com/dashboard/project/exfeacpgbrkgppzyvusk/auth/users" target="_blank" rel="noopener noreferrer">Manage tenant accounts ↗</a>
-            <button class="button button-quiet" id="logout-button" type="button">Log out</button>
+            <div class="quick-add-wrap">
+              <button class="button button-primary quick-add-btn" id="quick-add-btn" type="button" aria-haspopup="true" aria-expanded="false">
+                <svg class="button-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                <span>＋ Add Record</span>
+              </button>
+              <div class="quick-add-dropdown" id="quick-add-dropdown" hidden>
+                <button type="button" data-quick-action="tenant">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+                  <span>New Tenant</span>
+                </button>
+                <button type="button" data-quick-action="room">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 4v16"/><path d="M2 8h18a2 2 0 0 1 2 2v10"/><path d="M2 17h20"/><path d="M6 8v9"/></svg>
+                  <span>New Room</span>
+                </button>
+                <button type="button" data-quick-action="payment">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
+                  <span>Record Rent Payment</span>
+                </button>
+                <button type="button" data-quick-action="loan">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m17 7-5-5-5 5"/><path d="m17 17-5 5-5-5"/><path d="M12 2v20"/></svg>
+                  <span>New Tenant Loan</span>
+                </button>
+              </div>
+            </div>
+            <button class="button button-quiet topbar-action-btn logout-btn" id="logout-button" type="button" title="Sign out">
+              <svg class="action-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
+              <span>Log out</span>
+            </button>
           </div>
         </header>
 
@@ -196,6 +249,17 @@
         <button class="icon-button" type="button" data-action="close-dialog" aria-label="Close dialog">×</button>
       </div>
       <form id="entry-form" class="entry-form"></form>
+    </dialog>
+
+    <dialog class="entry-dialog tenant-detail-dialog" id="tenant-detail-dialog" aria-labelledby="tenant-modal-name">
+      <div class="dialog-head">
+        <div>
+          <span class="eyebrow">RESIDENT DOSSIER</span>
+          <h2 id="tenant-modal-name">Tenant Profile</h2>
+        </div>
+        <button class="icon-button" type="button" data-action="close-tenant-modal" aria-label="Close dialog">×</button>
+      </div>
+      <div class="tenant-modal-content" id="tenant-modal-content"></div>
     </dialog>
     <div class="toast-region" id="toast-region" aria-live="polite"></div>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>

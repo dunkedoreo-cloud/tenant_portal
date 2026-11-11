@@ -22,17 +22,42 @@
               <span class="property-avatar" aria-hidden="true">B</span>
               <span class="tenant-house-copy"><strong>Bords</strong><small>Boarding house</small></span>
             </div>
-            <nav class="tenant-top-nav" aria-label="Tenant sections">
-              <a href="#rent-status">Rent</a>
-              <a href="#available-rooms">Rooms</a>
-              <a href="#tenant-loans">Loans</a>
+            <nav class="tenant-top-nav" aria-label="Tenant sections" role="tablist">
+              <button type="button" class="tenant-nav-tab active" role="tab" aria-selected="true" data-tab="rent">
+                <svg class="nav-tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
+                <span>Rent</span>
+              </button>
+              <button type="button" class="tenant-nav-tab" role="tab" aria-selected="false" data-tab="rooms">
+                <svg class="nav-tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 4v16"/><path d="M2 8h18a2 2 0 0 1 2 2v10"/><path d="M2 17h20"/><path d="M6 8v9"/></svg>
+                <span>Rooms</span>
+              </button>
+              <button type="button" class="tenant-nav-tab" role="tab" aria-selected="false" data-tab="loans">
+                <svg class="nav-tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m17 7-5-5-5 5"/><path d="m17 17-5 5-5-5"/><path d="M12 2v20"/></svg>
+                <span>Loans</span>
+              </button>
+              <button type="button" class="tenant-nav-tab" role="tab" aria-selected="false" data-tab="profile">
+                <svg class="nav-tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                <span>Profile</span>
+              </button>
             </nav>
           </div>
           <div class="topbar-tools">
-            <span class="tenant-account-name" id="tenant-account-name">Tenant account</span>
             <span class="today-label" id="tenant-today"></span>
-            <a class="button button-quiet" href="tenant-change-password.html">Change password</a>
-            <button class="button button-quiet" id="tenant-logout-button" type="button">Log out</button>
+            <button class="tenant-user-badge" id="tenant-user-badge" type="button" aria-label="Open your profile" title="Click to view and edit your profile">
+              <span class="user-avatar" id="tenant-top-avatar" aria-hidden="true">T</span>
+              <span class="user-info">
+                <strong class="user-name" id="tenant-account-name">Loading…</strong>
+                <small class="user-role">Tenant</small>
+              </span>
+            </button>
+            <a class="button button-quiet topbar-action-btn" href="tenant-change-password.html" title="Change your password">
+              <svg class="action-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="7.5" cy="15.5" r="5.5"/><path d="m21 2-9.6 9.6"/><path d="m15.5 7.5 3 3L22 7l-3-3"/></svg>
+              <span>Password</span>
+            </a>
+            <button class="button button-quiet topbar-action-btn logout-btn" id="tenant-logout-button" type="button" title="Sign out">
+              <svg class="action-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
+              <span>Log out</span>
+            </button>
           </div>
         </header>
 
@@ -90,7 +115,7 @@
                     </select>
                   </label>
                   <label class="form-field">Date and time of payment<input name="paidOn" type="datetime-local" required /></label>
-                  <label class="form-field">Picture proof of payment<input name="proof" type="file" accept="image/*" required /></label>
+                  <label class="form-field">Picture proof of payment<input name="proof" type="file" accept="image/*" /></label>
                   <p class="tenant-payment-error" id="tenant-payment-error" role="alert"></p>
                   <button class="button button-primary" type="submit">Submit for review</button>
                 </form>
@@ -126,6 +151,176 @@
                 <p class="tenant-loan-error" id="tenant-loan-error" role="alert"></p>
                 <button class="button button-primary" type="submit">Send loan request</button>
               </form>
+            </article>
+            <article class="panel tenant-profile-panel" id="tenant-profile">
+              <div class="panel-header">
+                <div><div class="panel-label">ACCOUNT PROFILE</div><h2>Personal Profile & Tenancy Record</h2></div>
+                <span class="status success" id="profile-role-badge">Active Tenant</span>
+              </div>
+              <div class="tenant-profile-wrap">
+                <div class="tenant-profile-hero">
+                  <div class="profile-hero-avatar-wrap">
+                    <div class="profile-hero-avatar" id="tenant-profile-avatar" aria-hidden="true">T</div>
+                  </div>
+                  <div class="profile-hero-info">
+                    <div class="profile-hero-title">
+                      <h3 id="tenant-profile-display-name">Loading…</h3>
+                      <span class="verified-pill">Verified Account</span>
+                    </div>
+                    <p id="tenant-profile-display-email">—</p>
+                    <div class="profile-quick-stats">
+                      <span class="stat-pill"><strong id="profile-stat-room">—</strong></span>
+                      <span class="stat-pill"><strong id="profile-stat-rent">—</strong></span>
+                      <span class="stat-pill" id="profile-hero-age-gender-pill" hidden><strong id="profile-hero-age-gender">—</strong></span>
+                      <span class="stat-pill" id="profile-hero-occ-pill" hidden><strong id="profile-hero-occupation">—</strong></span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="tenant-profile-body">
+                  <section class="profile-card-section">
+                    <div class="section-title-wrap">
+                      <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                      <div>
+                        <h4>Personal Information</h4>
+                        <p>Update your resident details, address, age, and emergency contact for boarding house records.</p>
+                      </div>
+                    </div>
+                    <form class="tenant-profile-form" id="tenant-profile-form">
+                      <!-- Subgroup 1: Basic Identity -->
+                      <div class="profile-subgroup-title">
+                        <svg class="subgroup-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                        <span>Resident Identity</span>
+                      </div>
+                      <div class="profile-fields-grid">
+                        <label class="form-field">
+                          <span>Full name <strong class="field-required">*</strong></span>
+                          <input name="name" id="profile-name" type="text" autocomplete="name" required placeholder="Enter your full name" />
+                          <small class="field-helper">Your official name on the house roster, rent payments, and loans.</small>
+                        </label>
+                        <label class="form-field">
+                          <span>Age <small>(years)</small></span>
+                          <input name="age" id="profile-age" type="number" min="1" max="120" placeholder="e.g. 21" />
+                          <small class="field-helper">Your age for house resident profiling.</small>
+                        </label>
+                        <label class="form-field">
+                          <span>Gender</span>
+                          <select name="gender" id="profile-gender">
+                            <option value="">Select gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Non-binary">Non-binary</option>
+                            <option value="Prefer not to say">Prefer not to say</option>
+                          </select>
+                          <small class="field-helper">Used for room assignments & dorm accommodation.</small>
+                        </label>
+                        <label class="form-field">
+                          <span>Occupation / School or Employer</span>
+                          <input name="occupation" id="profile-occupation" type="text" placeholder="e.g. Student (USTP) / Software Engineer" />
+                          <small class="field-helper">Your current university, course, or workplace.</small>
+                        </label>
+                      </div>
+
+                      <!-- Subgroup 2: Contact & Hometown Address -->
+                      <div class="profile-subgroup-title">
+                        <svg class="subgroup-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                        <span>Contact & Permanent Home Address</span>
+                      </div>
+                      <div class="profile-fields-grid">
+                        <label class="form-field">
+                          <span>Phone number <small>(mobile)</small></span>
+                          <input name="phone" id="profile-phone" type="tel" autocomplete="tel" placeholder="e.g. 0912 345 6789" />
+                          <small class="field-helper">Primary mobile number for landlord notices and reminders.</small>
+                        </label>
+                        <label class="form-field profile-field-full">
+                          <span>Permanent / Hometown address</span>
+                          <input name="address" id="profile-address" type="text" placeholder="e.g. 123 Rizal St., Brgy. San Miguel, Iligan City, Lanao del Norte" />
+                          <small class="field-helper">Your permanent home address outside the boarding house.</small>
+                        </label>
+                      </div>
+
+                      <!-- Subgroup 3: Emergency Contact -->
+                      <div class="profile-subgroup-title">
+                        <svg class="subgroup-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                        <span>Emergency Contact Information</span>
+                      </div>
+                      <div class="profile-fields-grid">
+                        <label class="form-field">
+                          <span>Emergency contact name</span>
+                          <input name="emergencyContactName" id="profile-emergency-name" type="text" placeholder="e.g. Maria Dela Cruz (Mother)" />
+                          <small class="field-helper">Parent, guardian, or relative to contact in emergencies.</small>
+                        </label>
+                        <label class="form-field">
+                          <span>Emergency contact phone</span>
+                          <input name="emergencyContactPhone" id="profile-emergency-phone" type="tel" placeholder="e.g. 0917 890 1234" />
+                          <small class="field-helper">Active phone number of your emergency contact.</small>
+                        </label>
+                      </div>
+
+                      <div class="tenant-profile-actions">
+                        <p class="tenant-profile-feedback" id="tenant-profile-feedback" role="status" aria-live="polite"></p>
+                        <button class="button button-primary" type="submit" id="profile-save-button">
+                          <svg class="button-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                          <span>Save profile changes</span>
+                        </button>
+                      </div>
+                    </form>
+                  </section>
+
+                  <section class="profile-card-section details-section">
+                    <div class="section-title-wrap">
+                      <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                      <div>
+                        <h4>Boarding House & Security Records</h4>
+                        <p>Official records managed with the boarding house owner.</p>
+                      </div>
+                    </div>
+                    <div class="profile-meta-grid">
+                      <div class="meta-item">
+                        <span class="meta-label">Sign-in email</span>
+                        <strong class="meta-val" id="profile-email-val">—</strong>
+                        <small class="meta-hint">Tied to your Supabase login</small>
+                      </div>
+                      <div class="meta-item">
+                        <span class="meta-label">Assigned room</span>
+                        <strong class="meta-val" id="profile-room">—</strong>
+                        <small class="meta-hint">Approved by Owner</small>
+                      </div>
+                      <div class="meta-item">
+                        <span class="meta-label">Monthly rent rate</span>
+                        <strong class="meta-val" id="profile-rent">—</strong>
+                        <small class="meta-hint">Due on the 3rd of every month</small>
+                      </div>
+                      <div class="meta-item">
+                        <span class="meta-label">Age & Gender</span>
+                        <strong class="meta-val" id="profile-age-gender-val">—</strong>
+                        <small class="meta-hint">For dorm accommodation</small>
+                      </div>
+                      <div class="meta-item">
+                        <span class="meta-label">Occupation / School</span>
+                        <strong class="meta-val" id="profile-occupation-val">—</strong>
+                        <small class="meta-hint">Institution or employer</small>
+                      </div>
+                      <div class="meta-item">
+                        <span class="meta-label">Permanent address</span>
+                        <strong class="meta-val" id="profile-address-val">—</strong>
+                        <small class="meta-hint">Home province / city</small>
+                      </div>
+                      <div class="meta-item">
+                        <span class="meta-label">Emergency contact</span>
+                        <strong class="meta-val" id="profile-emergency-val">—</strong>
+                        <small class="meta-hint">Primary emergency contact</small>
+                      </div>
+                      <div class="meta-item">
+                        <span class="meta-label">Account credentials</span>
+                        <div class="meta-security-action">
+                          <a class="button button-secondary" href="tenant-change-password.html">Change password ↗</a>
+                        </div>
+                      </div>
+                    </div>
+                  </section>
+                </div>
+              </div>
             </article>
           </section>
 

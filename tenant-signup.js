@@ -6,10 +6,21 @@ let submittedEmail = '';
 tenantSignupForm.addEventListener('submit', async (event) => {
   event.preventDefault();
   const formData = new FormData(tenantSignupForm);
+  const name = String(formData.get('name')).trim();
   const email = String(formData.get('email')).trim().toLowerCase();
+  const phone = String(formData.get('phone')).trim();
   submittedEmail = email;
   const password = String(formData.get('password'));
   const confirmation = String(formData.get('confirmPassword'));
+
+  if (!name) {
+    tenantSignupFeedback.textContent = 'Enter your full name.';
+    return;
+  }
+  if (password.length < 8) {
+    tenantSignupFeedback.textContent = 'Password must be at least 8 characters.';
+    return;
+  }
   if (password !== confirmation) {
     tenantSignupFeedback.textContent = 'The passwords do not match.';
     return;
@@ -18,16 +29,53 @@ tenantSignupForm.addEventListener('submit', async (event) => {
   const submitButton = tenantSignupForm.querySelector('button[type="submit"]');
   submitButton.disabled = true;
   tenantSignupFeedback.textContent = 'Creating your account…';
+
   try {
-    const { error } = await window.bordsSupabase.auth.signUp({ email, password });
-    if (error) throw error;
+    const { data, error } = await window.bordsSupabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: {
+          signup_type: 'tenant',
+          role: 'tenant',
+          full_name: name,
+          phone
+        }
+      }
+    });
+
+    if (error) {
+      // Check if error is due to database not-null constraint on room_id before SQL script was run
+      if (error.message && error.message.includes('room_id')) {
+        throw new Error('Database schema requires updating: please run the provided supabase-tenant-signup.sql migration in your Supabase SQL Editor.');
+      }
+      throw error;
+    }
+
+    // If Supabase returned an active session immediately (auto-confirm enabled)
+    if (data.session) {
+      tenantSignupFeedback.textContent = 'Account created successfully! Preparing your tenant portal…';
+      try {
+        await window.bordsSupabase.rpc('ensure_tenant_profile');
+      } catch (rpcErr) {
+        // Fallback: silent continue
+      }
+      setTimeout(() => {
+        window.location.replace('tenant.html');
+      }, 1000);
+      return;
+    }
+
+    // If email confirmation is required by Supabase
     tenantSignupForm.hidden = true;
     resendConfirmationButton.hidden = false;
-    tenantSignupFeedback.textContent = 'Account request submitted. If Supabase requires email confirmation, open the confirmation email. Then return to sign in as Tenant. Your account is linked only when the Owner has entered this same email on your tenant record.';
+    tenantSignupFeedback.textContent = 'Account created! If your boarding house requires email confirmation, please check your inbox and confirm your address, then sign in as Tenant. If confirmation is not required, you can sign in directly.';
   } catch (error) {
     tenantSignupFeedback.textContent = `Could not create account: ${error.message}`;
     submitButton.disabled = false;
-    resendConfirmationButton.hidden = false;
+    if (submittedEmail) {
+      resendConfirmationButton.hidden = false;
+    }
   }
 });
 

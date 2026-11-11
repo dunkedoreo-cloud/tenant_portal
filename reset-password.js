@@ -5,23 +5,39 @@ const retryLink = document.getElementById('reset-retry-link');
 const signInLink = document.getElementById('reset-success-link');
 let hasRecoverySession = false;
 
-async function checkRecoverySession() {
-  const { data, error } = await window.bordsSupabase.auth.getSession();
-  if (error) throw error;
-  hasRecoverySession = Boolean(data.session);
-  if (hasRecoverySession) {
-    newPasswordForm.hidden = false;
-    newPasswordIntro.textContent = 'Enter and confirm your new password.';
-    return;
-  }
-  newPasswordIntro.textContent = 'This reset link is invalid or has expired. Request a new one to continue.';
-  retryLink.hidden = false;
+function activateRecoverySession() {
+  hasRecoverySession = true;
+  newPasswordForm.hidden = false;
+  retryLink.hidden = true;
+  newPasswordIntro.textContent = 'Enter and confirm your new password.';
+  newPasswordFeedback.textContent = '';
 }
 
-checkRecoverySession().catch((error) => {
-  newPasswordIntro.textContent = 'We could not verify this reset link.';
-  newPasswordFeedback.textContent = `Could not verify reset link: ${error.message}`;
+// 1. Listen for Supabase auth event (handles password recovery link from email)
+window.bordsSupabase.auth.onAuthStateChange((event, session) => {
+  if (event === 'PASSWORD_RECOVERY' || (session && (event === 'SIGNED_IN' || event === 'INITIAL_SESSION'))) {
+    activateRecoverySession();
+  }
 });
+
+// 2. Check existing session with a slight delay to allow client to process URL hash
+setTimeout(async () => {
+  if (hasRecoverySession) return;
+  try {
+    const { data, error } = await window.bordsSupabase.auth.getSession();
+    if (error) throw error;
+    if (data.session) {
+      activateRecoverySession();
+      return;
+    }
+    newPasswordIntro.textContent = 'This reset link is invalid or has expired. Request a new one to continue.';
+    retryLink.hidden = false;
+  } catch (error) {
+    newPasswordIntro.textContent = 'We could not verify this reset link.';
+    newPasswordFeedback.textContent = `Could not verify reset link: ${error.message}`;
+    retryLink.hidden = false;
+  }
+}, 800);
 
 newPasswordForm.addEventListener('submit', async (event) => {
   event.preventDefault();
@@ -33,6 +49,10 @@ newPasswordForm.addEventListener('submit', async (event) => {
   const formData = new FormData(newPasswordForm);
   const password = String(formData.get('password'));
   const confirmation = String(formData.get('confirmPassword'));
+  if (password.length < 8) {
+    newPasswordFeedback.textContent = 'Password must be at least 8 characters.';
+    return;
+  }
   if (password !== confirmation) {
     newPasswordFeedback.textContent = 'The passwords do not match.';
     return;
